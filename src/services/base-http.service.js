@@ -1,11 +1,11 @@
 import axios from "axios";
 
 export default class BaseHttpService {
-  BASE_URL = "http://localhost:3000";
-  //BASE_URL =
-  //"http://task-management-nestjs-app-prod.us-east-2.elasticbeanstalk.com";
+  //BASE_URL = "http://localhost:3000";
+  BASE_URL =
+    //"http://task-management-nestjs-app-prod.us-east-2.elasticbeanstalk.com";
 
-  _accessToken = null;
+    (_accessToken = null);
 
   constructor(routerStore) {
     this.routerStore = routerStore;
