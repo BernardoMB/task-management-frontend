@@ -1,9 +1,9 @@
 import axios from "axios";
 
 export default class BaseHttpService {
-  //BASE_URL = 'http://localhost:3000';
-  BASE_URL =
-    "http://task-management-nestjs-app-prod.us-east-2.elasticbeanstalk.com";
+  BASE_URL = "http://localhost:3000";
+  //BASE_URL =
+  //"http://task-management-nestjs-app-prod.us-east-2.elasticbeanstalk.com";
 
   _accessToken = null;
 
@@ -41,7 +41,6 @@ export default class BaseHttpService {
 
   _handleHttpError(error) {
     const { statusCode } = error.response.data;
-
     if (statusCode !== 401) {
       throw error;
     } else {
