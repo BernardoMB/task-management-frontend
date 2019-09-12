@@ -1,8 +1,8 @@
-import BaseHttpService from './base-http.service';
-import queryString from 'query-string';
+import BaseHttpService from "./base-http.service";
+import queryString from "query-string";
 
 export default class TasksService extends BaseHttpService {
-  fetchTasks({ status, search}) {
+  async fetchTasks({ status, search }) {
     const queryObj = {};
 
     if (status.length) {
@@ -14,18 +14,52 @@ export default class TasksService extends BaseHttpService {
     }
 
     const queryStr = queryString.stringify(queryObj);
-    return this.get('tasks' + (queryStr ? `?${queryStr}` : ''));
+    const result = await this.get("tasks" + (queryStr ? `?${queryStr}` : ""));
+
+    if (result) {
+      const bearerToken = result.headers.authorization;
+      const accessToken = bearerToken.split(" ")[1];
+
+      this.saveToken(accessToken);
+    }
+
+    return result;
   }
 
   async deleteTask(id) {
-    await this.delete(`tasks/${id}`);
+    const result = await this.delete(`tasks/${id}`);
+
+    if (result) {
+      const bearerToken = result.headers.authorization;
+      const accessToken = bearerToken.split(" ")[1];
+
+      this.saveToken(accessToken);
+    }
   }
 
-  updateTaskStatus(id, status) {
-    return this.patch(`tasks/${id}/status`, { status });
+  async updateTaskStatus(id, status) {
+    const result = await this.patch(`tasks/${id}/status`, { status });
+
+    if (result) {
+      const bearerToken = result.headers.authorization;
+      const accessToken = bearerToken.split(" ")[1];
+
+      this.saveToken(accessToken);
+    }
+
+    return result;
   }
 
-  createTask(title, description) {
-    return this.post(`tasks`, { title, description });
+  async createTask(title, description) {
+    const result = await this.post(`tasks`, { title, description });
+
+    if (result) {
+      const bearerToken = result.headers.authorization;
+      const accessToken = bearerToken.split(" ")[1];
+
+      this.saveToken(accessToken);
+    }
+
+    return result;
   }
 }
